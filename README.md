@@ -47,6 +47,21 @@ The bridge allows users to convert Qubic’s native token (**Qu**) to wrapped to
 
 ---
 
+## 🔄 Swap Flow Summary
+
+| Direction        | Origin Chain Action             | Relayer (Backend)            | Destination Chain Action              |
+|------------------|----------------------------------|-------------------------------|----------------------------------------|
+| **Qu → wQUBIC**  | Lock Qu tokens in Qubic smart contract | Validate lock event and construct relay message | Mint `wQUBIC` tokens to user on Solana |
+| **wQUBIC → Qu**  | Burn `wQUBIC` tokens via Solana program | Validate burn and construct relay message | Unlock Qu tokens to user on Qubic      |
+
+- Relayer ensures:
+  - Event detection
+  - Message formatting
+  - Signature validation
+  - Replay protection
+- Destination chain validates relayed data before executing the mirrored action
+
+
 ## 📦 Scope of Work
 
 ### ✅ Included
