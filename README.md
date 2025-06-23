@@ -135,10 +135,4 @@ The primary objective of this project is to establish a secure, efficient, and u
 - Security is a priority; a third-party audit by a reputable firm is strongly recommended before any mainnet launch to ensure code robustness and safeguard user assets.
 - The architecture will be designed for modularity and scalability, enabling future enhancements such as liquidity management, fee distribution mechanisms, and multi-chain expansion.
 - Ongoing maintenance, monitoring, and operational support post-launch can be scoped separately as needed.
-"""
 
-file_path = "/mnt/data/solana_qubic_bridge_proposal.md"
-with open(file_path, "w") as f:
-    f.write(proposal_md)
-
-file_path
