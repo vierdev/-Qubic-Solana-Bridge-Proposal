@@ -1,4 +1,4 @@
-proposal_md = """
+
 # 🌉 Solana ↔ Qubic Bridge Proposal
 
 ## 🔎 Overview
@@ -88,6 +88,21 @@ The primary objective of this project is to establish a secure, efficient, and u
 | **Frontend (Next.js + Tailwind)** | Creation of a responsive user interface with wallet integrations (Phantom and Metamask Snap) enabling seamless swaps. | $5,000     |
 | **Final Deployment & Audit Prep** | Mainnet deployment, end-to-end integration testing, documentation, and preparation for third-party security audits. | $7,500     |
 | **Total**                        |                                                     | **$25,000** |
+
+---
+
+## ⏳ Project Timeline
+
+The estimated duration for the full development and deployment of the Solana ↔ Qubic bridge is **12 weeks** (approximately 3 months), distributed across the four milestones as follows:
+
+| Milestone                                | Duration       | Timeframe          |
+|------------------------------------------|----------------|--------------------|
+| **Milestone 1: Smart Contract Development**      | 3 weeks        | Weeks 1–3           |
+| **Milestone 2: Backend Relayer Development**     | 3 weeks        | Weeks 4–6           |
+| **Milestone 3: Frontend Development**            | 2 weeks        | Weeks 7–8           |
+| **Milestone 4: Deployment, Integration & Audit** | 4 weeks        | Weeks 9–12          |
+
+Each phase includes time for testing, iteration, and alignment with the other components of the system. Integration and audit preparation are weighted toward the end to ensure a production-ready release.
 
 ---
 
