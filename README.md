@@ -1,94 +1,93 @@
-
+proposal_md = """
 # 🌉 Solana ↔ Qubic Bridge Proposal
 
 ## 🔎 Overview
 
-This project proposes the development of a secure and decentralized bridge that connects the **Qubic (non-EVM)** blockchain with **Solana**, enabling bi-directional token transfers between the two networks.
+This project aims to develop a robust, secure, and fully decentralized cross-chain bridge connecting the **Qubic blockchain (a non-EVM platform)** with the high-performance **Solana network**. This bridge will enable seamless, trust-minimized bi-directional token transfers, empowering users to convert native Qubic tokens (**Qu**) into wrapped tokens (**wQUBIC**) on Solana and redeem them back on Qubic.
 
-The bridge allows users to convert Qubic’s native token (**Qu**) to wrapped tokens (**wQUBIC**) on Solana and back. It includes smart contracts on both chains, a backend relayer, and a user-friendly frontend interface.
+By implementing this interoperability layer, the bridge unlocks enhanced liquidity, broader DeFi integration opportunities, and cross-chain asset mobility for users of both ecosystems. The solution will comprise well-audited smart contracts on both blockchains, a reliable backend relayer service for secure message relay and validation, and an intuitive frontend interface facilitating smooth user interactions.
 
 ---
 
 ## ⚙️ How It Works
 
 ### 1. User Interface (Frontend)
-- Built using **Next.js** and **Tailwind CSS**
-- Connects to:
-  - **Phantom Wallet** for Solana
-  - **Metamask Snap** (experimental) for Qubic
-- Lets users:
-  - Choose swap direction (Qubic → Solana or Solana → Qubic)
-  - Enter swap amount
-  - Track transaction status
+The frontend application, developed using **Next.js** and styled with **Tailwind CSS**, provides a responsive and intuitive user experience. It enables users to seamlessly connect their wallets—**Phantom** for Solana and **Metamask Snap** (currently experimental) for Qubic. Through this interface, users select the desired token swap direction, specify the amount, and initiate the transaction while tracking its real-time status.
 
 ### 2. Smart Contract Operations
-- **Qubic → Solana**:
-  - Qubic smart contract locks Qu tokens
-  - Relayer verifies and triggers minting of `wQUBIC` on Solana
+On the blockchain layer, carefully designed smart contracts enforce token custody and minting logic:
 
-- **Solana → Qubic**:
-  - Solana program burns `wQUBIC`
-  - Relayer verifies and triggers unlocking of Qu on Qubic
+- **Qubic → Solana**: When a user initiates a swap from Qubic to Solana, the Qubic smart contract securely locks the specified amount of Qu tokens. Upon successful lock confirmation, the backend relayer validates the event and triggers the minting of an equivalent amount of wrapped tokens (`wQUBIC`) on the Solana network.
+
+- **Solana → Qubic**: Conversely, when transferring from Solana back to Qubic, the Solana program burns the user’s `wQUBIC` tokens. The backend confirms the burn event before instructing the Qubic smart contract to release the equivalent amount of Qu tokens to the user’s wallet.
 
 ### 3. Relayer Backend (Python)
-- Monitors both chains for lock/burn events
-- Validates transactions and ensures replay protection
-- Relays verified instructions to execute swaps
-- Exposes APIs for frontend to display real-time status
-
----
-
-## 🎯 Objectives
-
-- Enable two-way token swaps between Qubic and Solana
-- Deliver a secure, audit-ready bridge system
-- Provide intuitive frontend for users to manage swaps
-- Deploy smart contracts and relayer on testnet and mainnet
+The bridge’s backend, implemented in Python, operates as a secure, event-driven relayer service. It continuously monitors both blockchains for relevant events (token locks and burns), verifies transaction validity, protects against replay attacks, and orchestrates cross-chain communication by relaying validated instructions to the destination network. Additionally, it exposes RESTful APIs allowing the frontend to fetch transaction statuses and swap histories for a transparent user experience.
 
 ---
 
 ## 🔄 Swap Flow Summary
 
-| Direction        | Origin Chain Action             | Relayer (Backend)            | Destination Chain Action              |
-|------------------|----------------------------------|-------------------------------|----------------------------------------|
-| **Qu → wQUBIC**  | Lock Qu tokens in Qubic smart contract | Validate lock event and construct relay message | Mint `wQUBIC` tokens to user on Solana |
-| **wQUBIC → Qu**  | Burn `wQUBIC` tokens via Solana program | Validate burn and construct relay message | Unlock Qu tokens to user on Qubic      |
+| Swap Direction   | Origin Chain Action                     | Backend Relayer Role                      | Destination Chain Action               |
+|------------------|----------------------------------------|------------------------------------------|--------------------------------------|
+| **Qu → wQUBIC**  | User locks Qu tokens in the Qubic smart contract | Detect and validate lock event, construct secure relay message | Mint equivalent `wQUBIC` tokens to user's Solana wallet |
+| **wQUBIC → Qu**  | User burns `wQUBIC` tokens in the Solana program | Detect and validate burn event, construct secure relay message | Unlock equivalent Qu tokens to user's Qubic wallet |
 
-- Relayer ensures:
-  - Event detection
-  - Message formatting
-  - Signature validation
-  - Replay protection
-- Destination chain validates relayed data before executing the mirrored action
+**Key Relayer Responsibilities:**
+- Real-time event monitoring on both chains  
+- Robust validation and signature verification  
+- Replay protection to prevent duplicate transactions  
+- Reliable message formatting and forwarding  
 
+The destination chain smart contracts verify all relayed data to ensure security and integrity before executing token minting or unlocking.
+
+---
+
+## 🎯 Objectives
+
+The primary objective of this project is to establish a secure, efficient, and user-friendly bridge enabling seamless token interoperability between the Qubic and Solana blockchains. This involves:
+
+- Designing and deploying robust smart contracts that guarantee the secure locking, unlocking, minting, and burning of tokens across both chains.
+- Developing a reliable backend relayer system responsible for secure cross-chain communication, event validation, and prevention of replay or double-spend attacks.
+- Creating an intuitive, responsive frontend interface that simplifies wallet connections and swap operations for end users.
+- Ensuring the entire system is scalable, maintainable, and prepared for production deployment with comprehensive documentation and audit readiness.
+
+---
 
 ## 📦 Scope of Work
 
-### ✅ Included
-- Qubic and Solana smart contract development
-- Python-based backend relayer
-- Next.js + Tailwind frontend interface
-- Metamask Snap integration for Qubic
-- Testnet and mainnet deployments
-- Basic documentation
+### ✅ Included Deliverables
+- **Smart Contract Development:**  
+  Design, implement, and deploy smart contracts on Qubic and Solana to facilitate secure token locking, unlocking, minting, and burning.
 
-### ❌ Not Included
-- Ongoing liquidity/fund management
-- External third-party audit costs
+- **Backend Relayer Service:**  
+  Build a Python-based backend responsible for monitoring blockchain events, validating transactions, securely relaying cross-chain messages, and exposing APIs for frontend integration.
+
+- **Frontend Development:**  
+  Develop a responsive and user-friendly frontend using **Next.js** and **Tailwind CSS**. Integrate wallet support via **Phantom** (Solana) and **Metamask Snap** (Qubic).
+
+- **Testnet & Mainnet Deployments:**  
+  Deploy all components on respective testnets for validation, followed by mainnet deployment.
+
+- **Documentation:**  
+  Provide comprehensive developer and user documentation detailing architecture, APIs, and usage guidelines.
+
+### ❌ Exclusions
+- **Liquidity and Fund Management:**  
+  Ongoing management of liquidity pools, token allowances, or fee distribution is not covered.
+
 
 ---
 
 ## 💰 Budget Breakdown
 
-| Component                           | Cost (USD)     |
-|-------------------------------------|----------------|
-| Smart Contract Development          | $6,250         |
-| Backend Relayer (Python)            | $6,250         |
-| Frontend (Next.js + Tailwind CSS)   | $5,000         |
-| Final Deployment & Audit Prep       | $7,500         |
-| **Total**                           | **$25,000**    |
-
-> No PM or coordination fees included.
+| Component                          | Description                                         | Cost (USD) |
+|----------------------------------|-----------------------------------------------------|------------|
+| **Smart Contract Development**    | Implementation and deployment of Qubic and Solana smart contracts to handle token lock, unlock, mint, and burn logic. | $6,250     |
+| **Backend Relayer (Python)**       | Development of a secure, event-driven backend service for cross-chain event monitoring, validation, and message relaying. | $6,250     |
+| **Frontend (Next.js + Tailwind)** | Creation of a responsive user interface with wallet integrations (Phantom and Metamask Snap) enabling seamless swaps. | $5,000     |
+| **Final Deployment & Audit Prep** | Mainnet deployment, end-to-end integration testing, documentation, and preparation for third-party security audits. | $7,500     |
+| **Total**                        |                                                     | **$25,000** |
 
 ---
 
@@ -96,56 +95,50 @@ The bridge allows users to convert Qubic’s native token (**Qu**) to wrapped to
 
 ### 🧱 Milestone 1: Smart Contract Development (25%) — **$6,250**
 
-This milestone delivers smart contracts for token swap logic.
-
-**Deliverables:**
-- Qubic contract to lock/unlock Qu
-- Solana program to mint/burn `wQUBIC`
-- Deploy to Qubic and Solana testnets
-- Manual validation of token flows
+- Develop and deploy core smart contracts on Qubic and Solana testnets.
+- Implement locking and unlocking logic on Qubic.
+- Implement minting and burning logic on Solana for wrapped tokens.
+- Perform initial functional testing of cross-chain token flow.
 
 ---
 
 ### 🔁 Milestone 2: Backend Relayer Development (25%) — **$6,250**
 
-A Python service that monitors both chains, validates actions, and relays messages.
-
-**Deliverables:**
-- Relayer that listens to on-chain events
-- Validates and relays cross-chain transactions
-- Implements nonce/replay protection
-- REST API for frontend integration
+- Build a Python backend service to monitor blockchain events in real-time.
+- Implement robust validation, nonce management, and replay protection.
+- Develop APIs to expose transaction statuses and swap information.
+- Integrate backend with smart contracts for seamless relay operation.
 
 ---
 
 ### 🖥 Milestone 3: Frontend Development (20%) — **$5,000**
 
-Build a responsive frontend for users to interact with the bridge.
-
-**Deliverables:**
-- UI built with Next.js and Tailwind
-- Phantom and Metamask Snap integration
-- Swap form and status tracking
-- Integration with backend API
+- Create a user-friendly, responsive frontend with Next.js and Tailwind CSS.
+- Integrate wallet connections: Phantom (Solana) and Metamask Snap (Qubic).
+- Develop UI for selecting swap directions, entering amounts, and tracking status.
+- Connect frontend to backend APIs for dynamic updates.
 
 ---
 
 ### 🚀 Milestone 4: Deployment, Integration & Audit (30%) — **$7,500**
 
-Production deployment and integration testing of the complete system.
-
-**Deliverables:**
-- Deploy smart contracts and relayer to mainnet
-- End-to-end test of both directions
-- Documentation and audit-ready code
-- Optional support for external audit
+- Deploy all components to mainnets and finalize integration.
+- Conduct comprehensive end-to-end testing of the full system.
+- Deliver detailed user and developer documentation.
+- Prepare codebase and environment for third-party security audit.
 
 ---
 
 ## 📝 Final Notes
 
-- Qubic wallet support will rely on **Metamask Snap integration**
-- The project will be developed with a modular, security-first mindset
-- A third-party audit is **strongly recommended** prior to public launch
-- Future enhancements (fee routing, MPC relayers, liquidity tools) can be proposed post-MVP
+- The Qubic wallet integration will leverage **Metamask Snap**, pending confirmation from the Qubic team regarding compatibility and user adoption.
+- Security is a priority; a third-party audit by a reputable firm is strongly recommended before any mainnet launch to ensure code robustness and safeguard user assets.
+- The architecture will be designed for modularity and scalability, enabling future enhancements such as liquidity management, fee distribution mechanisms, and multi-chain expansion.
+- Ongoing maintenance, monitoring, and operational support post-launch can be scoped separately as needed.
+"""
 
+file_path = "/mnt/data/solana_qubic_bridge_proposal.md"
+with open(file_path, "w") as f:
+    f.write(proposal_md)
+
+file_path
